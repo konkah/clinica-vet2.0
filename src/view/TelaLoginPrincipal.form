@@ -152,7 +152,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="Cl&#xed;nica veterinaria&#xa;"/>
+    <Property name="title" type="java.lang.String" value="Cl&#xed;nica veterinaria"/>
     <Property name="alwaysOnTop" type="boolean" value="true"/>
     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
       <Color id="Default Cursor"/>
@@ -321,7 +321,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Verdana" size="20" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="secretaria"/>
+            <Property name="text" type="java.lang.String" value="veterinario(a)"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>

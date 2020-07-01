@@ -155,7 +155,7 @@ public class TelaLoginPrincipal extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Clínica veterinaria\n");
+        setTitle("Clínica veterinaria");
         setAlwaysOnTop(true);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setPreferredSize(new java.awt.Dimension(800, 450));
@@ -192,7 +192,7 @@ public class TelaLoginPrincipal extends javax.swing.JFrame {
 
         jTextField1.setBackground(new java.awt.Color(204, 204, 204));
         jTextField1.setFont(new java.awt.Font("Verdana", 0, 20)); // NOI18N
-        jTextField1.setText("secretaria");
+        jTextField1.setText("veterinario(a)");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -359,10 +359,10 @@ public class TelaLoginPrincipal extends javax.swing.JFrame {
         String senha=jPasswordField1.getText();
         
         
-        String LoginSecretaria = "secretaria";
+        String LoginSecretaria = "secretario(a)";
         String senhaSecretaria="senha";
         
-        String LoginVeterinario="veterinario";
+        String LoginVeterinario="veterinario(a)";
         String senhaVeterinario="senha";
         
         if((login.equals(LoginSecretaria)) && senha.equals(senhaSecretaria)){
@@ -371,8 +371,8 @@ public class TelaLoginPrincipal extends javax.swing.JFrame {
             dispose();
         }else{
            
-              if((login.equals(LoginVeterinario)) && senha.equals(senhaSecretaria)){
-                TelaPrincipal tp2 = new TelaPrincipal();
+              if((login.equals(LoginVeterinario)) && senha.equals(senhaVeterinario)){
+                TelaConsultas tp2 = new TelaConsultas();
                 tp2.setVisible(true);
                 this.dispose();
             }else{System.out.println("Usuários ou senha estão incorretos");}

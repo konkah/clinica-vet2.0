@@ -17,7 +17,7 @@ import java.util.Properties;
 public abstract class DAO {
 
     public static final String DBURL = "jdbc:mysql://localhost:3306/VetDB";
-    static String path = "/home/karlos/Documents/Unicamp/2020 - 1º Semestre/POO I/ProjetoPOOA - V14 Nikolas/ProjetoPOOAv15 Karlos/imagens/";
+    static String path = "/home/karlos/Documents/Unicamp/2020 - 1º Semestre/POO I/clinica-vet2.0/imagens/";
     
     public static String getImage(String name) {
         return path + name + ".PNG";
