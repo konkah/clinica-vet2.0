@@ -43,19 +43,13 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
     public TelaCadastroConsulta() {
         initComponents();
         
-        
-         tableDados.getColumnModel().getColumn(6).setMinWidth(0);
+        tableDados.getColumnModel().getColumn(6).setMinWidth(0);
         tableDados.getColumnModel().getColumn(6).setMaxWidth(0);
         
-        
         List<Cliente> clientes = ClienteDAO.getInstance().getAllClientes();
+        comboCliente.addItem("");
         for(Cliente cliente:clientes){
             comboCliente.addItem(cliente.getNome());
-        }
-      
-        List<Veterinario> veterinarios = VeterinarioDAO.getInstance().getAllVeterinarios();
-        for(Veterinario veterinario:veterinarios){
-            comboVeterinario.addItem(veterinario.getNome());
         }
         
         ImageIcon icon = new ImageIcon(DAO.getImage("consultaagendada"));// aqui vai ter que colocar o endereço do seu desktop
@@ -247,7 +241,6 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
         buttonSalvar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         buttonSalvar.setForeground(new java.awt.Color(51, 255, 51));
         buttonSalvar.setText("Salvar");
-        buttonSalvar.setOpaque(false);
         buttonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonSalvarActionPerformed(evt);
@@ -281,6 +274,11 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
         comboAnimal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 comboAnimalMouseClicked(evt);
+            }
+        });
+        comboAnimal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboAnimalActionPerformed(evt);
             }
         });
         painelCadastro.add(comboAnimal, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 165, -1));
@@ -332,7 +330,7 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(jLabel6)
                             .addComponent(jLabel12))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(painelCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 655, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -350,9 +348,7 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addComponent(jLabel5))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addComponent(jLabel1)
                 .addGap(27, 27, 27)
@@ -391,10 +387,6 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSalvarActionPerformed
-       
-
-
-        // TODO add your handling code here:
         Integer clienteSelecionado = comboCliente.getSelectedIndex();
         List<Cliente> clientes = ClienteDAO.getInstance().getAllClientes();
         Cliente cliente = clientes.get(clienteSelecionado);
@@ -416,8 +408,6 @@ public class TelaCadastroConsulta extends javax.swing.JFrame {
                 textExames.getText()
         );    
         
-        
-        
         if (id > -1) {
             Consulta consulta = ConsultaDAO.getInstance().getConsultaById(id);
             ConsultaTableModel tb = (ConsultaTableModel)tableDados.getModel();
@@ -430,37 +420,40 @@ int t=0;
     }//GEN-LAST:event_textDataActionPerformed
 
     private void comboClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboClienteActionPerformed
-        // TODO add your handling code here:
+        comboAnimal.removeAllItems();
+        comboAnimal.setSelectedItem(null);
+
+        comboVeterinario.removeAllItems();
+        comboVeterinario.setSelectedItem(null);
+        
+        Integer clienteIndex = comboCliente.getSelectedIndex();
+        if (clienteIndex == 0)
+            return;
+
+        List<Cliente> clientes = ClienteDAO.getInstance().getAllClientes();
+        Cliente cliente = clientes.get(clienteIndex-1);
+
+        List<Animal> animais = AnimalDAO.getInstance().getAnimalByCliente(cliente);
+
+        if (animais.size() > 0) {
+            comboAnimal.addItem("");
+            for(Animal animal: animais) {
+                comboAnimal.addItem(animal.getNome());
+            }
+        } else {
+            JOptionPane.showMessageDialog (null, "Cliente sem animal, por favor cadastre um animal!");
+        }
+        
     }//GEN-LAST:event_comboClienteActionPerformed
 
     private void comboAnimalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboAnimalMouseClicked
-        
-         // TODO add your handling code here:
-         Integer clientes_ = comboCliente.getSelectedIndex();
-        List<Cliente> clientes = ClienteDAO.getInstance().getAllClientes();
-        Cliente cliente = clientes.get(clientes_);
-        
-        
-        
-     try{ 
-         Animal animais = AnimalDAO.getInstance().getAnimalByCliente(cliente);
-        comboAnimal. removeAll();
-        comboAnimal.setSelectedItem(null);
-        comboAnimal.addItem(animais.getNome());
-        
-     }catch(Exception e){
-         
-          JOptionPane.showMessageDialog (null, "Cliente sem animal, por favor cadastre um animal!");
-     }
 
-        
     }//GEN-LAST:event_comboAnimalMouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         TelaCadastroAnimal nomeVariavel = new TelaCadastroAnimal();
         nomeVariavel.setVisible(true);
         dispose();
-
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -504,6 +497,36 @@ class hora implements ActionListener{
         timer.start();
      
     }//GEN-LAST:event_formWindowOpened
+
+    private void comboAnimalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAnimalActionPerformed
+        comboVeterinario.removeAllItems();
+        comboVeterinario.setSelectedItem(null);
+        
+        Integer clienteIndex = comboCliente.getSelectedIndex();
+        if (clienteIndex <= 0)
+            return;
+        
+        List<Cliente> clientes = ClienteDAO.getInstance().getAllClientes();
+        Cliente cliente = clientes.get(clienteIndex-1);
+
+        Integer animalIndex = comboAnimal.getSelectedIndex();
+        if (animalIndex <= 0)
+            return;
+
+        List<Animal> animais = AnimalDAO.getInstance().getAnimalByCliente(cliente);
+        Animal animal = animais.get(animalIndex-1);
+
+        List<Veterinario> veterinarios = VeterinarioDAO.getInstance().getVeterinariosByEspecialidade(animal.getEspecie());
+
+        if (veterinarios.size() > 0) {
+            comboVeterinario.addItem("");
+            for(Veterinario veterinario: veterinarios) {
+                comboVeterinario.addItem(veterinario.getNome());
+            }
+        } else {
+            JOptionPane.showMessageDialog (null, "Não há veterinários que atendam " + animal.getEspecie() + "!");
+        }
+    }//GEN-LAST:event_comboAnimalActionPerformed
 
     /**
      * @param args the command line arguments

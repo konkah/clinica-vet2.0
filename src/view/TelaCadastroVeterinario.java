@@ -29,19 +29,13 @@ public String especialidades="";
      */
     public TelaCadastroVeterinario() {
         initComponents();
-          tableDados.getColumnModel().getColumn(5).setMinWidth(0);
+        tableDados.getColumnModel().getColumn(5).setMinWidth(0);
         tableDados.getColumnModel().getColumn(5).setMaxWidth(0);
         
         comboEspecialidades.removeAllItems();
-         ArrayList<String> especies = new ArrayList();
-         especies.add("Cão");
-         especies.add("Gato");
-         especies.add("Cão e gato");
-           int i;
-        int n = especies.size();
-    for (i=0; i<n; i++) {
-            comboEspecialidades.addItem(especies.get(i));
-        }
+        comboEspecialidades.addItem("Cão");
+        comboEspecialidades.addItem("Gato");
+        comboEspecialidades.addItem("Cão e Gato");
     
         ImageIcon icon = new ImageIcon(DAO.getImage("consultaagendada"));// aqui vai ter que colocar o endereço do seu desktop
         Image img = icon.getImage();

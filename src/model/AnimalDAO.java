@@ -102,20 +102,20 @@ public class AnimalDAO extends DAO {
     // Os grupos devem implementar as modificacoes para permitir que um animal seja
     // encontrado a partir de um id (inteiro).
     // Sugestao, ao inves de usar um List, usar um Map.
-    public Animal getAnimalByCliente(Cliente cliente) {
-        Animal animal = null;
-         int id = cliente.getId();
+    public List<Animal> getAnimalByCliente(Cliente cliente) {
+        List<Animal> animais = new ArrayList<Animal>();
+        int id = cliente.getId();
         
         ResultSet rs = getResultSet("SELECT * FROM animal WHERE cliente_id = " + id);
         try {
-            if (rs.next()) {
-                animal = buildObject(rs);
+            while (rs.next()) {
+                animais.add(buildObject(rs));
             }
             rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return animal;
+        return animais;
     }
 
     // RetrieveByName

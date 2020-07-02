@@ -205,6 +205,23 @@ public class VeterinarioDAO extends DAO {
         }
     }
 
+    public List<Veterinario> getVeterinariosByEspecialidade(String especie) {
+        List<Veterinario> veterinarios = new ArrayList<Veterinario>();
+        PreparedStatement stmt;
+             
+        ResultSet rs = getResultSet("SELECT * FROM veterinario WHERE especialidade like '%" + especie + "%'");
+            
+        try {
+            while (rs.next()) {
+                veterinarios.add(buildObject(rs));
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return veterinarios;
+    }
+
     
 
   
