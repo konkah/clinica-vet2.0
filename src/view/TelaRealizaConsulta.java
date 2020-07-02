@@ -17,8 +17,10 @@ import model.Veterinario;
 import model.VeterinarioDAO;
 import view.TelaCadastroCliente;
 import java.awt.Image;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import model.DAO;
+import model.ExameDAO;
 
 /**
  *
@@ -96,6 +98,9 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
         cliente = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        inserirExames = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -228,7 +233,7 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
         painelCadastro.add(labelCRVM, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, -1, -1));
 
         exames.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        painelCadastro.add(exames, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, 510, 120));
+        painelCadastro.add(exames, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, 160, -1));
 
         data.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         data.setEnabled(false);
@@ -262,6 +267,19 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
 
         jLabel7.setText("jLabel7");
         painelCadastro.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 380, -1, -1));
+
+        jTable1.setModel(new ExameTableModel(new ArrayList()));
+        jScrollPane1.setViewportView(jTable1);
+
+        painelCadastro.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, 180, 170));
+
+        inserirExames.setText("Inserir Exame");
+        inserirExames.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inserirExamesActionPerformed(evt);
+            }
+        });
+        painelCadastro.add(inserirExames, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 250, -1, -1));
 
         jLabel9.setText("jLabel9");
 
@@ -338,7 +356,7 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
                     .addComponent(jLabel12)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(painelCadastro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+            .addComponent(painelCadastro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         jLabel4.getAccessibleContext().setAccessibleName("jButton4");
@@ -354,7 +372,7 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
         );
 
         pack();
@@ -429,6 +447,14 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
         historico.setText(consulta.getHistorico());
 
         exames.setText(consulta.getListaDeExames());
+        
+        pegarExames();
+    }
+    
+    void pegarExames (){
+        
+        jTable1.setModel(new ExameTableModel((ArrayList)ExameDAO.getInstance().getExamesByConsulta(consulta.getId())));
+  
     }
     
     class hora implements ActionListener{
@@ -462,6 +488,11 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
     private void clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clienteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_clienteActionPerformed
+
+    private void inserirExamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirExamesActionPerformed
+        ExameDAO.getInstance().addExame(exames.getText(), consulta);
+        pegarExames();
+    }//GEN-LAST:event_inserirExamesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -512,6 +543,7 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
     private javax.swing.JTextField data;
     private javax.swing.JTextField exames;
     private javax.swing.JTextField historico;
+    private javax.swing.JButton inserirExames;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -527,6 +559,8 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel labelAnimal;
     private javax.swing.JLabel labelCRVM;
     private javax.swing.JLabel labelCliente;
