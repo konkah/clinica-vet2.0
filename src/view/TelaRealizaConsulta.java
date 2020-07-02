@@ -382,11 +382,13 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
         if (consulta == null)
             return;
         
+        // troca o histórico da consulta
         consulta.setHistorico(historico.getText());
-        consulta.setListaDeExames(exames.getText());
         
+        // atualiza e marca a consulta como realizada
         ConsultaDAO.getInstance().finalizar(consulta);
         
+        // volta para a tela de consultas
         TelaConsultas consulta = new TelaConsultas();
         consulta.setVisible(true);
         dispose();
@@ -429,32 +431,48 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
     Consulta consulta = null;
     
     void setConsultaId(Integer id) {
+        // pega a consulta selecionada do banco de dados
         consulta = ConsultaDAO.getInstance().getConsultaById(id);
         
+        // se a consulta não existir, para aqui, para não dar erro
         if (consulta == null)
             return;
         
+        // coloca a data da consulta no campo de data
         data.setText(consulta.getData());
         
+        // coloca o nome do cliente no campo de cliente
         cliente.setText(consulta.getIdCliente().getNome());
         
+        // pega o veterinário do banco, porque na consulta 
+        // só tem o CRMV do veterinário
         Veterinario veterinario = VeterinarioDAO.getInstance()
                 .getVeterinarioByCrvm(consulta.getCRVM());
+        // coloca o nome do veterinário no campos de veterinario
         vet.setText(veterinario.getNome());
         
+        // coloca o nome do animal no campo de animal
         animal.setText(consulta.getIdAnimal().getNome());
         
+        // coloca o histórico no campo de histórico
         historico.setText(consulta.getHistorico());
 
-        exames.setText(consulta.getListaDeExames());
-        
+        // carrega a lista de exames
         pegarExames();
     }
     
     void pegarExames (){
-        
-        jTable1.setModel(new ExameTableModel((ArrayList)ExameDAO.getInstance().getExamesByConsulta(consulta.getId())));
-  
+        // Usa o ExameTableModel para listar os exames,
+        // Como mostrado no exemplo em aula
+        // Colocando nele a lista de exames
+        // filtrados pela consulta a qual pertencem
+        jTable1.setModel(
+                new ExameTableModel(
+                        (ArrayList)ExameDAO.getInstance().getExamesByConsulta(
+                                consulta.getId()
+                        )
+                )
+        );
     }
     
     class hora implements ActionListener{
@@ -490,8 +508,15 @@ public class TelaRealizaConsulta extends javax.swing.JFrame {
     }//GEN-LAST:event_clienteActionPerformed
 
     private void inserirExamesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inserirExamesActionPerformed
+        // adiciona o exame no banco de dados, com descrição e
+        // a qual consulta pertence
         ExameDAO.getInstance().addExame(exames.getText(), consulta);
+        
+        // recarrega a lista de exames
         pegarExames();
+        
+        // limpa campo para poder adicionar outro exame
+        exames.setText("");
     }//GEN-LAST:event_inserirExamesActionPerformed
 
     /**
